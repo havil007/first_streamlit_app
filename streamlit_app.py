@@ -11,6 +11,7 @@ def get_fruityvice_data(this_fruit_choice):
   fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
   return fruityvice_normalized
 
+## Fuction to insert rows in snowflake table
 def insert_row_snowflake(new_fruit):
   with my_cnx.cursor() as my_cur:
     my_cur.execute("insert into fruit_load_list values ('from streamlit')")
@@ -66,7 +67,7 @@ streamlit.text("The fruit load list contains:")
 streamlit.dataframe(my_data_row)
 
 # Allow end user to select the fruit
-add_my_fruit = streamlit.textinput("What fruit would you like to add?")
+add_my_fruit = streamlit.text_input("What fruit would you like to add?")
 if streamlit.button("Add a fruit to the list"):
   my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
   back_from_function = insert_row_snowflake(add_my_fruit)
