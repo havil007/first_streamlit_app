@@ -36,13 +36,17 @@ streamlit.dataframe(fruityvice_normalized)
 # Test Snowflake Connection
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("Hello from Snowflake:")
-streamlit.text(my_data_row)
+# my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+# my_data_row = my_cur.fetchone()
+# streamlit.text("Hello from Snowflake:")
+# streamlit.text(my_data_row)
 
 # Fetch data from Snowflake
 my_cur.execute("select * from fruit_load_list")
 my_data_row = my_cur.fetchall()
 streamlit.text("The fruit load list contains:")
 streamlit.dataframe(my_data_row)
+
+# Allow end user to select the fruit
+add_my_fruit = streamlit.selectbox("What fruit would you like to add?", my_data_row, 'jackfruit')
+streamlit.text(f"Thanks for adding {add_my_fruit}")
